@@ -35,6 +35,12 @@
 
     Descricao:
         verifica a cor de cada filho e retorna quantos são vermelhos
+        uma das definicoes para a arvore rubro-negra, exige que todas as folhas
+        sejam pretas, eh considerado preto um noh vazio, portanto um noh valido 
+        vermelho q naoh contenha filhos validos, aponta para dois nohs nulos e
+        como tal, obedece a regra.
+        OU SEJA, consideramos um noh negro se ele for nulo ou indicando cor
+        diferente de vermelho
 */
 int
 RedSons (SLINK slkNode)
@@ -43,6 +49,24 @@ RedSons (SLINK slkNode)
             (slkNode->sLink[LEFT ] != NULL && slkNode->sLink[LEFT ]->bIsRed == TRUE);
 }
 
+/*
+    Funcao: 
+        WhoIsRed
+
+    Proposito:
+        Suporte a RedSons, devolve qual dos dois filhos de um noh eh vermelho
+
+    Parametros:
+        SLINK slkNode -> verifica os filhos deste noh
+
+    Retorno:
+        int -   0: RIGHT
+                1: LEFT
+
+    Descricao:
+        Precisa ser usada em conjunto com a funcaoh RedSons, somente em 
+        casos que a RedSons retorna indicando apenas 1 filho.
+*/
 int
 WhoIsRed (SLINK slkNode)
 {
@@ -360,6 +384,9 @@ AddNodeRb (SBINTREE * BST, void *pData)
   if (slkNew)                   // conseguiu alocar o noh
     {
       BSTRoot->sLink[RIGHT] = InsNodeRB (BST, BSTRoot->sLink[RIGHT], slkNew);
+
+      // em alguns caso o processo de balanceamento pode resultar com raiz c/ a cor vermelh
+      BSTRoot->sLink[RIGHT]->bIsRed = FALSE;
     }
 }
 
@@ -434,12 +461,13 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
               iDir = (slkNode->sLink[RIGHT] == NULL);
               // carrega o vetor que naoh for nulo, 1(LEFT) e para 0(RIGHT)
               slkNode = slkNode->sLink[iDir];
-              // Obs.: funciona mesmo quando ambos são nulos
+              // Obs.: funciona mesmo quando ambos saoh nulos
 
               //////////////////////////////////////////////////////////////////
               //////////               R E D  B L A C K             ////////////
               //////////////////////////////////////////////////////////////////
               // caso o noh excluido tenha um filho
+              // atualiza a cor
               if (slkNode)
                 slkNode->bIsRed = FALSE;
 
@@ -512,26 +540,26 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       // dupla rotacaoh
                       // Rotate Left Right
                       //
-                      //      z                               z                              x
+                      //      z                               z                              y
                       //     red                             red   color change(z)          red
                       //     / \                            /   \                          /   \
-                      //    y   nil LeftRotate(y)          x     nil  RightRotate(z)     y       z
+                      //    x   nil LeftRotate(x)          y     nil  RightRotate(z)     x       z
                       //  black                           red                          black   black
                       //   / \      ------------>         /  \       ------------->     / \     / \
-                      // T1   x                          y    T3                      T1  T2  T3   nil
+                      // T1   y                          x    T3                      T1  T2  T3   nil
                       //     red                       black
                       //     / \                        / \
                       //   T2   T3                    T1   T2
                       //
                       // Rotate Right Left
                       //
-                      //     z                              z                                  x
-                      //    red                            red    color change(z)             red
+                      //     x                              x                                  y
+                      //    red                            red    color change(x)             red
                       //   /   \                          /   \                             /     \
-                      // nil    y    RightRotate(y)     nil    x      LeftRotate(z)        z       y
+                      // nil    z    RightRotate(z)     nil    y      LeftRotate(x)        x       z
                       //      black                           red                       black     black
                       //     /     \  ------------->         /   \     ------------>   /     \   /     \
-                      //    x      T4                      T2     y                 nil      T2 T3      T4
+                      //    y      T4                      T2     z                 nil      T2 T3      T4
                       //   red                                  black
                       //  /   \                                /     \
                       // T2   T3                             T3       T4
@@ -543,7 +571,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   // Rotate Left Left
                   //
                   //             z                                        y
-                  //            red        change color(z & y)           red
+                  //            red      change color(x, y & z)          red
                   //           /   \                                   /     \
                   //          y    nil      RightRotate(z)            x       z
                   //        black                                 black       black
@@ -556,7 +584,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   // Rotate Right Right
                   //
                   //      z                                   y
-                  //     red       change color(z & y)       red
+                  //     red     change color(x, y & z)      red
                   //    /   \                              /     \
                   // nil     y      LeftRotate(z)       z           x
                   //       black                      black       black
@@ -567,10 +595,12 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   //         T3     T4
                   slkNode = Rotate (slkNode, !iDir);
 
-                  slkNode->bIsRed = TRUE;
-                  slkNode->sLink[iDir]->bIsRed = FALSE;
+                  // troca as cores
+                  slkNode->bIsRed = TRUE;   
+                  slkNode->sLink[RIGHT]->bIsRed = FALSE;
+                  slkNode->sLink[LEFT ]->bIsRed = FALSE;
                 }
-              // caso 1.2 nenhum neto preto
+              // caso 1.2 nenhum neto vermelho
               else
                 {
                   //
@@ -581,21 +611,19 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   //          x    nil                              x      nil
                   //        black                                  red
                   //       /     \          ------------->       /     \
-                  //     nil     nil                           nil     nil
+                  //     T1       T2                            T1      T2
                   //
                   //      x                                   x
-                  //     red       change color(x & y)       red
+                  //     red       change color(x & y)      black
                   //    /   \                              /     \
                   // nil     y                         nil          y
-                  //       black                                  black
+                  //       black                                   red 
                   //      /     \      ------------>             /     \
-                  //    nil     nil                           nil       nil
+                  //    T1       T2                            T1       T2 
                   //
                   slkNode->bIsRed == FALSE;
                   slkNode->sLink[!iDir]->bIsRed = TRUE;
                 }
-
-
 
             }
           // caso 2.1.1, 2.1.2, 2.2.1 e 2.2.2
@@ -608,7 +636,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   slkNode->sLink[!iDir]->bIsRed == TRUE)
                 {
                   // caso 2.1.1
-                  // existe um bisneto vermelho
+                  // existe um bisneto vermelho em uma sequencia zig zag
                   //////////////////////////////////////////////////////////////////
                   // zig-zag (RIGHT LEFT OU LEFT RIGHT)
                   if (RedSons (slkNode->sLink[!iDir]->sLink[iDir]))
@@ -616,39 +644,45 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       // dupla rotacaoh
                       // Rotate Left Right
                       //
-                      //      z                               z                              x
-                      //     red                             red   color change(z)          red
-                      //     / \                            /   \                          /   \
-                      //    y   nil LeftRotate(y)          x     nil  RightRotate(z)     y       z
-                      //  black                           red                          black   black
-                      //   / \      ------------>         /  \       ------------->     / \     / \
-                      // T1   x                          y    T3                      T1  T2  T3   nil
-                      //     red                       black
-                      //     / \                        / \
-                      //   T2   T3                    T1   T2
-                      //
+                      //          z                             z                               y
+                      //        black                         black                           black
+                      //       /     \                       /     \                        /       \
+                      //      w       nil                   y       nil                    w         z
+                      //     red                           black                          red      black
+                      //    /   \      LeftRotate(w)      /     \      RightRotate(z)    /   \    /     \
+                      //  T1     y                        w      T4                     T1    x   T4    nil
+                      //       black   ------------>     red           ------------->       black
+                      //      /     \                   /   \                              /     \
+                      //     x       T4               T1     x       change color(x)     T2       T3
+                      //    red                             red
+                      //   /   \                           /   \
+                      // T2     T3                       T2     T3
+
                       // Rotate Right Left
                       //
-                      //     z                              z                                  x
-                      //    red                            red    color change(z)             red
-                      //   /   \                          /   \                             /     \
-                      // nil    y    RightRotate(y)     nil    x      LeftRotate(z)        z       y
-                      //      black                           red                       black     black
-                      //     /     \  ------------->         /   \     ------------>   /     \   /     \
-                      //    x      T4                      T2     y                 nil      T2 T3      T4
-                      //   red                                  black
-                      //  /   \                                /     \
-                      // T2   T3                             T3       T4
+                      //       w                               w                                    x
+                      //     black                           black   color change(y)              black
+                      //    /     \                         /     \                             /       \
+                      // nil       z    RightRotate(z)   nil       x      LeftRotate(w)        w         z
+                      //          red                            black                       black      red 
+                      //         /   \    ------------->        /     \    ------------>    /     \    /   \
+                      //        x     T4                      T1       z                 nil      T1   y    T4
+                      //      black                                   red                            black
+                      //     /     \                                 /   \                          /     \
+                      //   T1       y                               y     T4                      T2       T3
+                      //           red                             red
+                      //          /   \                           /   \
+                      //        T2     T3                       T2     T3
+                      //
                       slkNode->sLink[!iDir] =
                         Rotate (slkNode->sLink[!iDir], iDir);
                       slkNode = Rotate (slkNode, !iDir);
 
                       if (slkNode->sLink[!iDir]->sLink[iDir] != NULL)
                         slkNode->sLink[!iDir]->sLink[iDir]->bIsRed = FALSE;
-                      else if (slkNode->sLink[!iDir]->sLink[!iDir] != NULL)
-                        slkNode->sLink[!iDir]->sLink[!iDir]->bIsRed = FALSE;
                     }
-                  else if (RedSons (slkNode->sLink[!iDir]->sLink[!iDir]))
+                  // caso 2.1.2 nenhum bisneto vermelho em uma sequencia zig zag
+                  else 
                     {
                       // zig-zig (RIGHT RIGHT OU LEFT LEFT)
                       // simples rotacaoh
@@ -677,16 +711,13 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       //            red
                       //           /   \
                       //         T3     T4
-                      slkNode = Rotate (slkNode, !iDir);
+//                      slkNode = Rotate (slkNode, !iDir);
 
-                      if (slkNode->sLink[!iDir]->sLink[iDir] != NULL)
-                        slkNode->sLink[!iDir]->sLink[iDir]->bIsRed = FALSE;
-                      else if (slkNode->sLink[!iDir]->sLink[!iDir] != NULL)
-                        slkNode->sLink[!iDir]->sLink[!iDir]->bIsRed = FALSE;
-                    }
-                  // caso 2.1.2 nenhum neto preto
-                  else
-                    {
+//                      if (slkNode->sLink[!iDir]->sLink[iDir] != NULL)
+//                        slkNode->sLink[!iDir]->sLink[iDir]->bIsRed = FALSE;
+//                      else if (slkNode->sLink[!iDir]->sLink[!iDir] != NULL)
+//                        slkNode->sLink[!iDir]->sLink[!iDir]->bIsRed = FALSE;
+
                     }
 
                   //////////////////////////////////////////////////////////////////

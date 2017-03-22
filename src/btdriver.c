@@ -51,6 +51,7 @@ Menu (SBINTREE * BT, SBINTREE * AVL, SBINTREE * RB)
             {
             case 1:
               Insert (BT, AVL, RB);
+            //    Display (RB);
               break;
             case 2:
               Delete (BT, AVL, RB);
@@ -97,6 +98,8 @@ Insert (SBINTREE * BT, SBINTREE * AVL, SBINTREE * RB)
       AddNode (BT, strWord);
       AddNodeAvl (AVL, strWord);
       AddNodeRb (RB, strWord);
+
+        Display(RB);
     }
 }
 
