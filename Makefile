@@ -44,4 +44,5 @@ $(ODIR):
 .PHONY:	clean
 
 clean: 
-	rm -fr $(ODIR) rbTree *~ $(IDIR)/*~ $(SDIR)/*~ 
+	rm -fr $(ODIR) rbTree* *~ $(IDIR)/*~ $(SDIR)/*~
+

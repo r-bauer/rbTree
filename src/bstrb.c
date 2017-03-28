@@ -688,35 +688,36 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       // simples rotacaoh
                       // Rotate Left Left
                       //
-                      //             z                                        y
-                      //            red        change color(z & y)           red
-                      //           /   \                                   /     \
-                      //          y    nil      RightRotate(z)            x       z
-                      //        black                                 black       black
-                      //       /     \          ------------->       /     \     /     \
-                      //      x       T3                           T1       T2  T3     nil
-                      //     red
-                      //    /   \
-                      //  T1     T2
+                      //          z                                  x
+                      //        black                              black
+                      //       /     \                            /     \
+                      //      x       nil      RightRotate(z)   T1       z
+                      //     red                                       black
+                      //    /   \          ------------->             /     \
+                      //  T1     y                                   y       nil
+                      //       black       change color (x & y)     red
+                      //      /     \                              /   \
+                      //    T2       T3                          T2     T3
                       //
                       // Rotate Right Right
                       //
-                      //      z                                   y
-                      //     red       change color(z & y)       red
-                      //    /   \                              /     \
-                      // nil     y      LeftRotate(z)       z           x
-                      //       black                      black       black
-                      //      /     \   ------------>    /     \     /     \
-                      //    T2       x                 nil      T2 T3       T4
-                      //            red
-                      //           /   \
-                      //         T3     T4
-//                      slkNode = Rotate (slkNode, !iDir);
+                      //       x                                  z
+                      //     black     change color(z & y)      black
+                      //    /     \                            /     \
+                      // nil       z      LeftRotate(x)       x       T3
+                      //          red                       black
+                      //         /   \   ------------>     /     \
+                      //        y     T3                nil       y
+                      //      black                              red
+                      //     /     \                            /   \
+                      //   T1       T2                        T1     T2
+                      slkNode = Rotate (slkNode, !iDir);
 
-//                      if (slkNode->sLink[!iDir]->sLink[iDir] != NULL)
-//                        slkNode->sLink[!iDir]->sLink[iDir]->bIsRed = FALSE;
-//                      else if (slkNode->sLink[!iDir]->sLink[!iDir] != NULL)
-//                        slkNode->sLink[!iDir]->sLink[!iDir]->bIsRed = FALSE;
+                      if (slkNode->sLink[iDir] != NULL)
+                        slkNode->sLink[iDir]->bIsRed = FALSE;
+
+		      if (slkNode->sLink[iDir]->sLink[!iDir] != NULL)
+                        slkNode->sLink[iDir]->sLink[!iDir]->bIsRed = TRUE;
 
                     }
 
