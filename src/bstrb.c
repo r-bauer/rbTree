@@ -621,7 +621,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   //      /     \      ------------>             /     \
                   //    T1       T2                            T1       T2 
                   //
-                  slkNode->bIsRed == FALSE;
+                  slkNode->bIsRed = FALSE;
                   slkNode->sLink[!iDir]->bIsRed = TRUE;
                 }
 
