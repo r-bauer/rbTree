@@ -342,8 +342,6 @@ InsNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkNew)
 */
                 }
             }
-
-
         }
     }
 
@@ -463,18 +461,12 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
               slkNode = slkNode->sLink[iDir];
               // Obs.: funciona mesmo quando ambos saoh nulos
 
-              //////////////////////////////////////////////////////////////////
-              //////////               R E D  B L A C K             ////////////
-              //////////////////////////////////////////////////////////////////
+              //   R E D  B L A C K
               // caso o noh excluido tenha um filho
               // atualiza a cor
               if (slkNode)
                 slkNode->bIsRed = FALSE;
-
-              //////////////////////////////////////////////////////////////////
-              //////////               R E D  B L A C K             ////////////
-              //////////////////////////////////////////////////////////////////
-
+              //   R E D  B L A C K
 
               // desalocamos o noh de busca
               DeleteData (slkFind->pData);
@@ -637,13 +629,8 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                 {
                   // caso 2.1.1
                   // existe um bisneto vermelho em uma sequencia zig zag
-                  //////////////////////////////////////////////////////////////////
-                  // zig-zag (RIGHT LEFT OU LEFT RIGHT)
                   if (RedSons (slkNode->sLink[!iDir]->sLink[iDir]))
                     {
-                      // dupla rotacaoh
-                      // Rotate Left Right
-                      //
                       //          z                             z                               y
                       //        black                         black                           black
                       //       /     \                       /     \                        /       \
@@ -657,8 +644,6 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       //    red                             red
                       //   /   \                           /   \
                       // T2     T3                       T2     T3
-
-                      // Rotate Right Left
                       //
                       //       w                               w                                    x
                       //     black                           black   color change(y)              black
@@ -681,13 +666,10 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       if (slkNode->sLink[!iDir]->sLink[iDir] != NULL)
                         slkNode->sLink[!iDir]->sLink[iDir]->bIsRed = FALSE;
                     }
-                  // caso 2.1.2 nenhum bisneto vermelho em uma sequencia zig zag
+                  // caso 2.1.2 
+                  // nenhum bisneto vermelho em uma sequencia zig zag
                   else 
                     {
-                      // zig-zig (RIGHT RIGHT OU LEFT LEFT)
-                      // simples rotacaoh
-                      // Rotate Left Left
-                      //
                       //          z                                  x
                       //        black                              black
                       //       /     \                            /     \
@@ -698,8 +680,6 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       //       black       change color (x & y)     red
                       //      /     \                              /   \
                       //    T2       T3                          T2     T3
-                      //
-                      // Rotate Right Right
                       //
                       //       x                                  z
                       //     black     change color(z & y)      black
@@ -716,13 +696,9 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                       if (slkNode->sLink[iDir] != NULL)
                         slkNode->sLink[iDir]->bIsRed = FALSE;
 
-		      if (slkNode->sLink[iDir]->sLink[!iDir] != NULL)
+                      if (slkNode->sLink[iDir]->sLink[!iDir] != NULL)
                         slkNode->sLink[iDir]->sLink[!iDir]->bIsRed = TRUE;
-
                     }
-
-                  //////////////////////////////////////////////////////////////////
-
                 }
               // caso 2.2.1 e 2.2.2
               // irmaoh do noh excluido eh preto
@@ -750,7 +726,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
         DelNodeRb
 
     Proposito:
-        Remover um bloco de dados em uma arvore AVL
+        Remover um bloco de dados em uma arvore Rubro Negra
 
     Parametros:
         SBINTREE *BST -> ponteiro para estrutura de dados que trata a arvore
@@ -772,7 +748,7 @@ DelNodeRb (SBINTREE * BST, void *pData)
   SLINK slkFind;
 
   slkFind = CreateNode (BST, pData);    // cria o noh e passa o endereco
-  if (slkFind)                  // conseguiu alocar o noh
+  if (slkFind)                          // conseguiu alocar o noh
     {
       BSTRoot->sLink[RIGHT] =
         RemoveNodeRB (BST, BSTRoot->sLink[RIGHT], slkFind);
