@@ -588,7 +588,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                   slkNode = Rotate (slkNode, !iDir);
 
                   // troca as cores
-                  slkNode->bIsRed = TRUE;   
+                  slkNode->bIsRed = TRUE;
                   slkNode->sLink[RIGHT]->bIsRed = FALSE;
                   slkNode->sLink[LEFT ]->bIsRed = FALSE;
                 }
@@ -668,7 +668,7 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
                     }
                   // caso 2.1.2 
                   // nenhum bisneto vermelho em uma sequencia zig zag
-                  else 
+                  else
                     {
                       //          z                                  x
                       //        black                              black
@@ -704,7 +704,65 @@ RemoveNodeRB (SBINTREE * BST, SLINK slkNode, SLINK slkFind)
               // irmaoh do noh excluido eh preto
               else
                 {
+                  // caso 2.2.1 - pai preto, irmaoh preto, sobrinho vermelho
+                  if (RedSons (slkNode->sLink[!iDir]))
+                    {
+                      //           z                              z                              y
+                      //         black                          black     change color(y)      black
+                      //        /     \                        /     \                       /       \
+                      //       x       nil                    y       nil   ---------->     x         z
+                      //     black                           red                          black     black
+                      //    /     \      LeftRotate(x)      /   \    RightRotate(z)      /     \   /     \
+                      //  T1       y                       x     T3                    T1      T2 T4      nil
+                      //          red   ------------>    black
+                      //         /   \                  /     \
+                      //       T2     T3              T1       T2
+                      //
+                      //        x                             x                                  y
+                      //      black                         black       change color(y)        black
+                      //     /     \                       /     \                           /       \
+                      //  nil       z                   nil       y    LeftRotate(x)       x           z
+                      //          black                          red                     black       black
+                      //         /     \    RightRotate(z)      /   \  ------------>    /     \     /     \
+                      //        y       T3                    T1     z               nil       T1 T2       T3
+                      //       red                                 black
+                      //      /   \         ------------->        /     \
+                      //    T1     T2                           T2       T3
+                      //
 
+
+                      // zig-zag (RIGHT LEFT OU LEFT RIGHT)
+                      if (WhoIsRed (slkNode->sLink[!iDir]) == iDir)
+                        {
+                          slkNode->sLink[!iDir] =
+                            Rotate (slkNode->sLink[!iDir], iDir);
+                        }
+                      // zig-zig (RIGHT RIGHT OU LEFT LEFT)
+                      slkNode = Rotate (slkNode, !iDir);
+
+                      slkNode->bIsRed = FALSE;
+                    }
+                  // caso 2.2.2 - pai preto, irmaoh preto, naoh tem sobrinho vermelho
+                  else
+                    {
+                      //           y                              y
+                      //         black                          black
+                      //        /     \                        /     \
+                      //       x       nil                    x       nil
+                      //     black                           red
+                      //    /     \     Color change(x)     /   \
+                      //  T1       y                       x     T3
+                      //
+                      //        x                             x
+                      //      black                         black
+                      //     /     \                       /     \
+                      //  nil       y                   nil       y
+                      //          black                          red
+                      //         /     \    Color change(y)     /   \
+                      //        y       T3                    T1     T2
+                      //
+                      slkNode->sLink[!iDir]->bIsRed = TRUE;
+                    }
                 }
             }
         }
