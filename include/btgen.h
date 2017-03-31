@@ -15,22 +15,22 @@
     #define EXTERN  extern
 #endif
 
-#define RIGHT	0
-#define LEFT	1
+#define RIGHT   0
+#define LEFT    1
 
 
-//  tipo de dados abstrato noh 
+//  tipo de dados abstrato noh
 typedef struct tagSNODE
 {
-	struct tagSNODE	*sLink[2];	//  ligacaoh para os nosh das subarvores
-	void		*pData;		//  ponteiro generico de dados
+    struct tagSNODE *sLink[2];  //  ligacaoh para os nosh das subarvores
+    void        *pData;     //  ponteiro generico de dados
 
-	// dado utilizado somente por arvores AVL
-	int		iHeight;	// altura do noh na arvore AVL
+    // dado utilizado somente por arvores AVL
+    int     iHeight;    // altura do noh na arvore AVL
 
-	// dado utilizado somente por arvores Rubro negras
-	int		iColor;		// cor noh na arvore rubro negra
-	BOOL		bIsRed;
+    // dado utilizado somente por arvores Rubro negras
+    int     iColor;     // cor noh na arvore rubro negra
+    BOOL        bIsRed;
 
 } SNODE;
 
@@ -40,19 +40,20 @@ typedef SNODE *      SLINK;
 
 
 // estrutura de dados
-typedef struct tagSBINTREE 
-{ 
-    SLINK			slkDummyRoot;	// noh raiz falso, simplifica operacoes
-    unsigned int    uiCount;		// total de nohs na arvore
+typedef struct tagSBINTREE
+{
+    SLINK           slkDummyRoot;   // noh raiz falso, simplifica operacoes
+    unsigned int    uiCount;        // total de nohs na arvore
+    BOOL            bBalance;       // controla as rotinas de balanceamento
 
     void *  ( * fCreateData )       ( void * );    //      Criar Dado
-    //        Eh passado um ponteiro do objeto definido para a 
+    //        Eh passado um ponteiro do objeto definido para a
     //        aplicacaoh, espera-se o retorno de um ponteiro
     //        para o que venha a ser o dado armazenado na arvore.
 
     BOOL    ( * fDeleteData )       ( void * );    //      Apagar Dado
-    //        Eh passado um ponteiro do objeto definido para a 
-    //        aplicacaoh que deve estar armazenado na arvore 
+    //        Eh passado um ponteiro do objeto definido para a
+    //        aplicacaoh que deve estar armazenado na arvore
     //        binaria. fDeleteData deve destruir o objeto
 
     int     ( * fDuplicatedNode )   ( SLINK, SLINK );    //      Noh Duplicado
@@ -67,33 +68,33 @@ typedef struct tagSBINTREE
     int     ( * fNodeDataCmp )      ( void *, void * );    //      Compara Dados do Noh
     //      fNodeDataCmp:       Eh passado dois ponteiros do objeto definido para o
     //                          dado e deve compara-lo, retornando um numero que eh
-    //                          < 0, zero, ou > 0, dependendo da relacaoh entre o 
+    //                          < 0, zero, ou > 0, dependendo da relacaoh entre o
     //                          primeiro e segundo objeto.
 
 
-    int	iMaxDepth;	// a profundidade da arvore
-    char *pPath;	// o caminho da funcaoh recursiva PrintTree
+    int     iMaxDepth;  // a profundidade da arvore
+    char    *pPath;     // o caminho da funcaoh recursiva PrintTree
 
     int     ( * fTraversal )      ( void *, SLINK, int ); // percorre a arvore
     //      fTraversal:        funcao de auxilio para percorrer a arvore
-    //				recursivamente, usada para gerar log e debugs.
-    //				saoh utilizados dois ponteiros, o primeiro para saida 
-    //				de dados, e o segundo para entrada de dados, o 
-    //				inteiro indica o nivel da arvore em que a rotina 
-    //				estah executando.
+    //              recursivamente, usada para gerar log e debugs.
+    //              saoh utilizados dois ponteiros, o primeiro para saida
+    //              de dados, e o segundo para entrada de dados, o
+    //              inteiro indica o nivel da arvore em que a rotina
+    //              estah executando.
 
-} SBINTREE; 
+} SBINTREE;
 
 
 
 
 // primitivas genericas da arvore binaria
-EXTERN SBINTREE *CreateBinTree(	void *	( * fCreateData )		( void * ),		// criar dado
-				BOOL	( * fDeleteData )		( void * ),		// apaga dado
-				int	( * fDuplicatedNode )		( SLINK, SLINK ),	// noh duplicado
-				int	( * fNodeDataCmp )		( void *, void *),	// compara
-				// auxilio de teste
-				int	( * fTraversal )		( void *, SLINK, int));// percorre noh	
+EXTERN SBINTREE *CreateBinTree( void *  ( * fCreateData )       ( void * ),         // criar dado
+                                BOOL    ( * fDeleteData )       ( void * ),         // apaga dado
+                                int     ( * fDuplicatedNode )   ( SLINK, SLINK ),   // noh duplicado
+                                int     ( * fNodeDataCmp )      ( void *, void *),  // compara
+                                // auxilio de teste
+                                int     ( * fTraversal )        ( void *, SLINK, int));// percorre noh
 
 EXTERN SLINK CreateNode(SBINTREE *, void *);
 EXTERN BOOL AddNode( SBINTREE *, void *);
@@ -102,10 +103,10 @@ EXTERN SLINK FindNode( SBINTREE *, void * );
 EXTERN BOOL DestroyBinTree( SBINTREE * );
 
 
-typedef enum tagETRAVERSAL { 
-	INORDER, 
-	PREORDER, 
-	POSTORDER 
+typedef enum tagETRAVERSAL {
+    INORDER,
+    PREORDER,
+    POSTORDER
 } ETRAVERSAL;
 
 // rotinas de teste
