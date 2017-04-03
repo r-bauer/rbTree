@@ -10,19 +10,19 @@
 #include "main.h"
 
 //  Redefinicoes para aumentar legibilidade do codigo
-#define BTRoot				(BT->slkDummyRoot)
-#define NodeCount			(BT->uiCount)   // nohs na arvoreh atual
+#define BTRoot              (BT->slkDummyRoot)
+#define NodeCount           (BT->uiCount)   // nohs na arvoreh atual
 
-#define CreateData			(*(BT->fCreateData))
-#define DeleteData			(*(BT->fDeleteData))
-#define DuplicatedNode			(*(BT->fDuplicatedNode))
-#define NodeDataCmp			(*(BT->fNodeDataCmp))
+#define CreateData          (*(BT->fCreateData))
+#define DeleteData          (*(BT->fDeleteData))
+#define DuplicatedNode      (*(BT->fDuplicatedNode))
+#define NodeDataCmp         (*(BT->fNodeDataCmp))
 
 
-#define Path				(BT->pPath)
-#define MaxDepth			(BT->iMaxDepth)
+#define Path                (BT->pPath)
+#define MaxDepth            (BT->iMaxDepth)
 
-#define Traversal			(*(BT->fTraversal))
+#define Traversal           (*(BT->fTraversal))
 
 
 
@@ -43,11 +43,11 @@ PRIVATE void PrintTree (FILE *, SBINTREE *, SLINK, int);
 
     Parametros:   
           ponteiros p/ a funcoesh especificas da arvoreh
-		void *(*fCreateData)(void *)              -> cria dado
-		int   (*fDeleteData)(void *)              -> apaga dado
-		int   (*fDuplicatedNode)(SLINK, SLINK)    -> o que fazer c/ dado duplicado
-		int   (*fNodeDataCmp)(void *, void *)     -> compara nohs
-		int   (*fTraversal)( FILE *, SLINK, int) -> percorre a arvore
+        void *(*fCreateData)(void *)              -> cria dado
+        int   (*fDeleteData)(void *)              -> apaga dado
+        int   (*fDuplicatedNode)(SLINK, SLINK)    -> o que fazer c/ dado duplicado
+        int   (*fNodeDataCmp)(void *, void *)     -> compara nohs
+        int   (*fTraversal)( FILE *, SLINK, int) -> percorre a arvore
     
     Retorno:
           ponteiro SBINTREE
@@ -58,8 +58,8 @@ PRIVATE void PrintTree (FILE *, SBINTREE *, SLINK, int);
               Cria uma estrutura de arvoreh binariah e retorna um ponteiro da 
               mesma. Em erro, retorna NULL.
               Esta funcaoh aceita ponteiros para as cinco funcoesh especificas
-              de uma arvoreh e inicializa a estrutura com elas, aloca o nó que
-			  irah apontar para a raiz da arvoreh.
+              de uma arvoreh e inicializa a estrutura com elas, aloca o noh que
+              irah apontar para a raiz da arvoreh.
 */
 SBINTREE *
 CreateBinTree (void *(*fCreateData) (void *),
@@ -165,7 +165,7 @@ CreateNode (SBINTREE * BT, void *pData)
 
     Parametros:
               SBINTREE *BT   -> ponteiro para estrutura de dados que trata a arvore
-							c/ ponteiros paras funcoes de comparacaoh e tratamento de duplicados
+                            c/ ponteiros paras funcoes de comparacaoh e tratamento de duplicados
               void *pData -> noh a ser inserido na arvoreh
 
     Retorno:
@@ -257,7 +257,7 @@ AddNode (SBINTREE * BT, void *pData)
 
     Parametros:
               SBINTREE *BT -> ponteiro para estrutura de dados que trata a arvore
-							c/ ponteiros paras funcoes de comparacaoh e excluir dados
+                            c/ ponteiros paras funcoes de comparacaoh e excluir dados
               void *pData -> informacaoh que devera ser excluida da arvoreh
 
     Retorno:
@@ -267,7 +267,7 @@ AddNode (SBINTREE * BT, void *pData)
     Descricao:
               Apaga um noh que tenha os dados indicado por pData.
               Verifica se o noh se encontra na arvore,
-			  Elimina o noh e atualiza a referencia aos demais nohs.
+              Elimina o noh e atualiza a referencia aos demais nohs.
 */
 BOOL
 DeleteNode (SBINTREE * BT, void *pData)
@@ -396,7 +396,7 @@ DeleteNode (SBINTREE * BT, void *pData)
 
     Parametros:
               SBINTREE *BT -> ponteiro para estrutura de dados que trata a arvore
-							c/ a funcaoh p/comparacaoh de dados
+                            c/ a funcaoh p/comparacaoh de dados
               void *pData -> informacaoh que devera ser encontrada na arvoreh
 
     Retorno:
@@ -404,9 +404,9 @@ DeleteNode (SBINTREE * BT, void *pData)
               NULL    - naoh encontrou um noh equivalente
 
     Descricao:
-			Realiza uma formatação nos dados apontados por pData, 
-			para poder realizar a comparação necessária durante o 
-			percurso de busca do nó equivalente.
+            Realiza uma formatacaoh nos dados apontados por pData,
+            para poder realizar a comparacaoh necessaria durante o
+            percurso de busca do noh equivalente.
 */
 SLINK
 FindNode (SBINTREE * BT, void *pData)
@@ -452,14 +452,14 @@ FindNode (SBINTREE * BT, void *pData)
               void *pOut -> aponta a saida dos dados, usada pela funcaoh que percorre a arvore
               SBINTREE *BT -> estrutura de dados da arvore c/ a rotina de travessia
               SLINK slk -> noh atual da arvore sendo percorrida recursivamente
-			  int iLevel -> profundidade na arvore em que a rotina se encontra
+              int iLevel -> profundidade na arvore em que a rotina se encontra
 
     Retorno:
-			nenhum              
+            nenhum
 
     Descricao:
               Acessa os nohs da arvoreh em sequencia ordenada, executando a rotina
-			  apontada por fTraversal para tratar o noh.
+              apontada por fTraversal para tratar o noh.
 */
 PRIVATE void
 InOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
@@ -483,14 +483,14 @@ InOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
               void *pOut -> aponta a saida dos dados, usada pela funcaoh que percorre a arvore
               SBINTREE *BT -> estrutura de dados da arvore c/ a rotina de travessia
               SLINK slk -> noh atual da arvore sendo percorrida recursivamente
-			  int iLevel -> profundidade na arvore em que a rotina se encontra
+              int iLevel -> profundidade na arvore em que a rotina se encontra
 
     Retorno:
-			nenhum              
+            nenhum
 
     Descricao:
               Acessa os nohs da arvoreh em sequencia pre-ordenada, executando a rotina
-			  apontada por fTraversal para tratar o noh.
+              apontada por fTraversal para tratar o noh.
 */
 PRIVATE void
 PreOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
@@ -514,14 +514,14 @@ PreOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
               void *pOut -> aponta a saida dos dados, usada pela funcaoh que percorre a arvore
               SBINTREE *BT -> estrutura de dados da arvore c/ a rotina de travessia
               SLINK slk -> noh atual da arvore sendo percorrida recursivamente
-			  int iLevel -> profundidade na arvore em que a rotina se encontra
+              int iLevel -> profundidade na arvore em que a rotina se encontra
 
     Retorno:
-			nenhum              
+            nenhum
 
     Descricao:
               Acessa os nohs da arvoreh em sequencia pos-ordenada, executando a rotina
-			  apontada por fTraversal para tratar o noh.
+              apontada por fTraversal para tratar o noh.
 */
 PRIVATE void
 PostOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
@@ -543,16 +543,16 @@ PostOrder (void *pOut, SBINTREE * BT, SLINK slk, int iLevel)
 
     Parametros:
               void *pOut -> aponta a saida dos dados, usada pela funcaoh que percorre a arvore
-			  SBINTREE *BT -> Arvoreh a ser atravessada e rotina de travessia
+              SBINTREE *BT -> Arvoreh a ser atravessada e rotina de travessia
               ETRAVERSAL eType -> tipo de travessia, ordenada, posordenada ou preordenada
 
     Retorno:
-			TRUE - Travessia de arvoreh completada
-			FALSE - Arvore vazia
+            TRUE - Travessia de arvoreh completada
+            FALSE - Arvore vazia
 
     Descricao:
               Ponto de entrada para as rotinas de travessia recursivas, executa as 
-			  acoes indicadas por fTraversal na ordem indicada.
+              acoes indicadas por fTraversal na ordem indicada.
 */
 BOOL
 TraversalTree (void *pOut, SBINTREE * BT, ETRAVERSAL eType)
@@ -596,12 +596,12 @@ TraversalTree (void *pOut, SBINTREE * BT, ETRAVERSAL eType)
               SLINK slk -> noh atual da arvore sendo percorrida recursivamente
 
     Retorno:
-			nenhum              
+            nenhum
 
     Descricao:
               Acessa os nohs da arvoreh em sequencia pos-ordenada, eliminando o noh
-			  da posicaoh atual, por ser uma travessia pos-ordenada, o noh liberado
-			  naoh serah referenciado novamente durante o resto do percurso
+              da posicaoh atual, por ser uma travessia pos-ordenada, o noh liberado
+              naoh serah referenciado novamente durante o resto do percurso
 */
 PRIVATE void
 DelTree (SBINTREE * BT, SLINK slk)
@@ -621,23 +621,23 @@ DelTree (SBINTREE * BT, SLINK slk)
 
 /*
     Funcao: 
-              DestroyBinTree
+          DestroyBinTree
 
     Proposito: 
-              Libera toda a memoria de uma arvore binaria previamente criada
+          Libera toda a memoria de uma arvore binaria previamente criada
 
     Parametros:
-			  SBINTREE *BT -> Arvoreh a ser destruida
+          SBINTREE *BT -> Arvoreh a ser destruida
 
     Retorno:
-			TRUE - memoria  da estrutura da arvore e todos os nohs liberados
-			FALSE - arvoreh invalida
+          TRUE - memoria  da estrutura da arvore e todos os nohs liberados
+          FALSE - arvoreh invalida
 
     Descricao:
-              Ponto de entrada para as rotinas de travessia recursivas, executa a
-			  a rotina DelTree para eliminar nohs individualmente, terminado o 
-			  processo de atravessar e liberar os nohs, libera o noh raiz falso
-			  e a estrutura de dados que gerencia a arvore.
+           Ponto de entrada para as rotinas de travessia recursivas, executa a
+          a rotina DelTree para eliminar nohs individualmente, terminado o
+          processo de atravessar e liberar os nohs, libera o noh raiz falso
+          e a estrutura de dados que gerencia a arvore.
 
 */
 BOOL
@@ -671,21 +671,21 @@ DestroyBinTree (SBINTREE * BT)
 
     Parametros:
               FILE *fOut -> arquivo em que a arvore sera impressa.
-			  SBINTREE *BT -> Arvoreh a ser desenhada
-							Path - buffer com o caminho percorrido pela funcaoh recursiva
-							MaxDepth - indica a profundidade(altura) da arvore impressa
+              SBINTREE *BT -> Arvoreh a ser desenhada
+                            Path - buffer com o caminho percorrido pela funcaoh recursiva
+                            MaxDepth - indica a profundidade(altura) da arvore impressa
               SLINK slk -> noh atual da arvore sendo percorrida recursivamente
-			  int iLevel -> profundidade na arvore em que a rotina se encontra
+              int iLevel -> profundidade na arvore em que a rotina se encontra
 
     Retorno:
-			nenhum              
+            nenhum
 
     Descricao:
               Acessa os nohs da arvoreh em sequencia ordenada da esquerda para direita,
-			  durante a impressaoh da noh na linha, verifica as ramificacoes anteriores
-			  atraves do buffer Path, sempre que ocorre desvio da esquerda p/ direita ou
-			  vice-versa, deve incluir '|' como indicacaoh de linha horizontal de uma 
-			  ramificacaoh.
+              durante a impressaoh da noh na linha, verifica as ramificacoes anteriores
+              atraves do buffer Path, sempre que ocorre desvio da esquerda p/ direita ou
+              vice-versa, deve incluir '|' como indicacaoh de linha horizontal de uma
+              ramificacaoh.
 */
 PRIVATE void
 PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
@@ -722,8 +722,9 @@ PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
                 if (Path[iX - 1] != Path[iX])
                   {
                     // desenha linha horizontal de uma ramificacaoh anterior
-                    pDraw[iX * 2] = '|';
-                    pDraw[iX * 2 + 1] = ' ';
+                    pDraw[iX * 2] = ' ';
+                    pDraw[iX * 2 + 1] = '|';
+                    pDraw[iX * 2 + 2] = ' ';
                   }
                 // sequencia LL(esquerda/esquerda) ou RR(direita/direita)
                 else
@@ -731,12 +732,14 @@ PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
                     // naoh tem linha de ramificaoh acima
                     pDraw[iX * 2] = ' ';
                     pDraw[iX * 2 + 1] = ' ';
-                  }
+                    pDraw[iX * 2 + 2] = ' ';
+                 }
               }
             // desenha o noh na linha atual
-            pDraw[iLevel * 2] = '+';
-            pDraw[iLevel * 2 + 1] = '-';
-            pDraw[iLevel * 2 + 2] = '\0';
+            pDraw[iLevel * 2] = ' ';
+            pDraw[iLevel * 2 + 1] = Path[iLevel-1] == 'R' ? '/' : '\\';
+            pDraw[iLevel * 2 + 2] = '-';
+            pDraw[iLevel * 2 + 3] = '\0';
 
             fprintf (fLog, "%s", pDraw);
 
@@ -759,23 +762,23 @@ PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
               PrintForest
 
     Proposito: 
-		Imprime em um arquivo de saida a arvore resultante
+        Imprime em um arquivo de saida a arvore resultante
               
 
     Parametros:
-		FILE *fOut -> arquivo em que a arvore sera impressa.
-		SBINTREE *BT -> Arvoreh a ser desenhada
-		Path - buffer com o caminho percorrido pela funcaoh recursiva
-		MaxDepth - indica a profundidade(altura) da arvore impressa
+        FILE *fOut -> arquivo em que a arvore sera impressa.
+        SBINTREE *BT -> Arvoreh a ser desenhada
+        Path - buffer com o caminho percorrido pela funcaoh recursiva
+        MaxDepth - indica a profundidade(altura) da arvore impressa
 
     Retorno:
-		TRUE - Impressaoh concluida
-		FALSE - Arvore vazia
+        TRUE - Impressaoh concluida
+        FALSE - Arvore vazia
 
     Descricao:
               Ponto de entrada para a rotina de imperssaoh recursivas, 
-		reserva um buffer para manter registro do caminho percorrido pela funcaoh,
-		inicia a variavel de profundidade da arvore.
+        reserva um buffer para manter registro do caminho percorrido pela funcaoh,
+        inicia a variavel de profundidade da arvore.
 */
 BOOL
 PrintForest (FILE * fOut, SBINTREE * BT)

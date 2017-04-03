@@ -10,7 +10,7 @@
 
 #include "main.h"
 
-#define STR_SIZE		80
+#define STR_SIZE        80
 
 
 PRIVATE void Insert (SBINTREE *, SBINTREE *, SBINTREE *);
@@ -51,7 +51,6 @@ Menu (SBINTREE * BT, SBINTREE * AVL, SBINTREE * RB)
             {
             case 1:
               Insert (BT, AVL, RB);
-            //    Display (RB);
               break;
             case 2:
               Delete (BT, AVL, RB);
@@ -98,8 +97,6 @@ Insert (SBINTREE * BT, SBINTREE * AVL, SBINTREE * RB)
       AddNode (BT, strWord);
       AddNodeAvl (AVL, strWord);
       AddNodeRb (RB, strWord);
-
-        Display(RB);
     }
 }
 
@@ -149,21 +146,21 @@ Input (const char *pText, char *pContent, int size)
 }
 
 /* 
-	Funcao:
-			StrUpr
-	
-	Proposito:
-			Converte todo o conteudo de uma string em maiusculas
+    Funcao:
+            StrUpr
 
-	Entrada:
-			char *str -> string com as letras a serem modificadas
+    Proposito:
+            Converte todo o conteudo de uma string em maiusculas
 
-	Retorno:
-			str -> ponteiro com a string contendo somente maisculas.
+    Entrada:
+            char *str -> string com as letras a serem modificadas
 
-	Descricao:
-			Percorre cada ponto da string, trocando as letras por 
-			equivalentes maiusculas.
+    Retorno:
+            str -> ponteiro com a string contendo somente maisculas.
+
+    Descricao:
+            Percorre cada ponto da string, trocando as letras por
+            equivalentes maiusculas.
 */
 PRIVATE char *
 StrUpr (char *str)
