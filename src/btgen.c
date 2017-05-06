@@ -710,11 +710,12 @@ PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
 
         // aloca o tamanho necessario para montar a linha ser desenhada
         // utiliza memoria do heap ao inves da pilha(stack)
-        pDraw = malloc (iLevel * 2 + 3);
+        pDraw = malloc (iLevel * 3 + 4);
         if (pDraw)
           {
             pDraw[0] = ' ';
             pDraw[1] = ' ';
+            pDraw[2] = ' ';
             for (iX = 1; iX < iLevel; ++iX)
               {
                 // Path = RRRRLRRRL
@@ -722,24 +723,24 @@ PrintTree (FILE * fLog, SBINTREE * BT, SLINK slk, int iLevel)
                 if (Path[iX - 1] != Path[iX])
                   {
                     // desenha linha horizontal de uma ramificacaoh anterior
-                    pDraw[iX * 2] = ' ';
-                    pDraw[iX * 2 + 1] = '|';
-                    pDraw[iX * 2 + 2] = ' ';
+                    pDraw[iX * 3] = ' ';
+                    pDraw[iX * 3 + 1] = '|';
+                    pDraw[iX * 3 + 2] = ' ';
                   }
                 // sequencia LL(esquerda/esquerda) ou RR(direita/direita)
                 else
                   {
                     // naoh tem linha de ramificaoh acima
-                    pDraw[iX * 2] = ' ';
-                    pDraw[iX * 2 + 1] = ' ';
-                    pDraw[iX * 2 + 2] = ' ';
+                    pDraw[iX * 3] = ' ';
+                    pDraw[iX * 3 + 1] = ' ';
+                    pDraw[iX * 3 + 2] = ' ';
                  }
               }
             // desenha o noh na linha atual
-            pDraw[iLevel * 2] = ' ';
-            pDraw[iLevel * 2 + 1] = Path[iLevel-1] == 'R' ? '/' : '\\';
-            pDraw[iLevel * 2 + 2] = '-';
-            pDraw[iLevel * 2 + 3] = '\0';
+            pDraw[iLevel * 3] = ' ';
+            pDraw[iLevel * 3 + 1] = Path[iLevel-1] == 'R' ? '/' : '\\';
+            pDraw[iLevel * 3 + 2] = '-';
+            pDraw[iLevel * 3 + 3] = '\0';
 
             fprintf (fLog, "%s", pDraw);
 
